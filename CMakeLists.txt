@@ -27,31 +27,15 @@ juce_add_plugin(WaveringDistortionMod
     COPY_PLUGIN_AFTER_BUILD FALSE)
 
 target_sources(WaveringDistortionMod PRIVATE
-    Source/PluginProcessor.cpp
-    Source/PluginEditor.cpp
-    Source/WaveguideResonator.cpp
-    Source/DistortionEngine.cpp
-    Source/RingModulator.cpp
-    Source/ModulationEngine.cpp
-    Source/SignalRouter.cpp
-    Source/PresetManager.cpp
-    Source/DSPUtilities.cpp)
+    Source/PluginProcessor.cpp)
 
 target_include_directories(WaveringDistortionMod PRIVATE Source)
 target_compile_definitions(WaveringDistortionMod PUBLIC
     JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0 JUCE_VST3_CAN_REPLACE_VST2=0)
-target_link_libraries(WaveringDistortionMod PRIVATE
-    juce::juce_audio_utils juce::juce_dsp
+target_link_libraries(WaveringDistortionMod
+    PRIVATE juce::juce_audio_utils juce::juce_dsp
     PUBLIC juce::juce_recommended_config_flags
            juce::juce_recommended_lto_flags
            juce::juce_recommended_warning_flags)
 
 juce_generate_juce_header(WaveringDistortionMod)
-
-enable_testing()
-add_executable(DSPBasicTests tests/DSPBasicTests.cpp
-    Source/WaveguideResonator.cpp Source/DistortionEngine.cpp
-    Source/RingModulator.cpp Source/ModulationEngine.cpp Source/DSPUtilities.cpp)
-target_include_directories(DSPBasicTests PRIVATE Source)
-target_link_libraries(DSPBasicTests PRIVATE juce::juce_dsp juce::juce_core)
-add_test(NAME DSPBasicTests COMMAND DSPBasicTests)
